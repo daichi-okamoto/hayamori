@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: postgres
+  password: password #これは、docker-compose.ymlで指定したパスワード
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: shift_app_development
+
+test:
+  <<: *default
+  database: shift_app_test
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %> #これを記述するだけで、あとはherokuがよしなにやってくれます
