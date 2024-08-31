@@ -82,86 +82,57 @@
       </nav>
     </div>
   </aside>
-  <main class="flex-1">
-    <div class="flex justify-between p-4">
-      <div class="flex space-x-1">
-        <button class="border py-1 rounded text-gray-500 hover:bg-sky-400 hover:text-white duration-300 transition active:scale-95">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"width="24px" fill="currentColor">
-            <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
-          </svg>
-        </button>
-        <h2 class="flex items-center text-gray-500 text-xl">2024年8月1日〜8月31日</h2>
-        <button class="border py-1 rounded text-gray-500 hover:bg-sky-400 hover:text-white duration-300 transition active:scale-95">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-            <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
-          </svg>
-        </button>
+  <main class="flex-1 flex items-center justify-center h-[calc(100vh-64px)] bg-slate-50 p-6">
+    <div class="max-w-lg w-full mx-auto bg-white p-6 rounded-lg shadow-md">
+      <!-- タイトルと戻るボタン -->
+      <div class="flex justify-between items-center mb-6 pb-2 border-b">
+        <h2 class="text-2xl text-gray-600">スタッフ編集</h2>
+        <button class="bg-white border text-gray-600 font-medium px-3 py-1 rounded hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95">戻る</button>
       </div>
-      <button class="border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95">勤務希望を入力する</button>
+
+      <!-- 名前入力欄 -->
+      <div class="mb-4">
+        <label for="name" class="block text-gray-600">名前</label>
+        <input type="text" id="name" name="名前" class="w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400">
+      </div>
+  
+      <!-- 雇用形態のセレクトボックス -->
+      <div class="mb-4">
+        <label for="employment_type" class="block text-gray-600">雇用形態</label>
+        <select id="employment_type" name="employment_type" class="w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400">
+          <option value="">選択してください</option>
+          <option value="正社員">正社員</option>
+          <option value="パート">パート</option>
+          <option value="派遣">派遣</option>
+        </select>
+      </div>
+  
+      <!-- 勤務可能シフトのチェックボックス -->
+      <div class="mb-4">
+        <label class="block text-gray-600 mb-1">勤務可能シフト</label>
+        <div class="flex items-center mb-2">
+          <input type="checkbox" id="early_shift" name="shifts" value="早番" class="h-5 w-5 rounded cursor-pointer">
+          <label for="early_shift" class="pl-1 text-gray-600 cursor-pointer">早番</label>
+        </div>
+        <div class="flex items-center mb-2">
+          <input type="checkbox" id="day_shift" name="shifts" value="日勤" class="h-5 w-5 rounded cursor-pointer">
+          <label for="day_shift" class="pl-1 text-gray-600 cursor-pointer">日勤</label>
+        </div>
+        <div class="flex items-center mb-2">
+          <input type="checkbox" id="late_shift" name="shifts" value="遅番" class="h-5 w-5 rounded cursor-pointer">
+          <label for="late_shift" class="pl-1 text-gray-600 cursor-pointer">遅番</label>
+        </div>
+        <div class="flex items-center mb-2">
+          <input type="checkbox" id="night_shift" name="shifts" value="夜勤" class="h-5 w-5 rounded cursor-pointer">
+          <label for="night_shift" class="pl-1 text-gray-600 cursor-pointer">夜勤 </label>
+        </div>
+      </div>
+  
+      <!-- 送信ボタン -->
+      <div class="flex justify-center">
+        <button class="bg-sky-400 w-full font-bold text-white py-2 mt-4 rounded hover:bg-sky-500 duration-300 transition active:scale-95">変更</button>
+      </div>
     </div>
-    <table class="table-fixed border-separate border-spacing-0 mx-4 ">
-      <thead>
-        <tr>
-          <th></th>
-          <td></td>
-        </tr>
-      </thead>
-      <thead>
-        <tr>
-          <th></th>
-          <!-- 日付 -->
-          <td></td>
-
-          <td class="border p-1 text-gray-700 text-center sticky top-0 z-20">早番</td>
-          <td class="border p-1 text-gray-700 text-center sticky top-0 z-20">日勤</td>
-          <td class="border p-1 text-gray-700 text-center sticky top-0 z-20">遅番</td>
-          <td class="border p-1 text-gray-700 text-center sticky top-0 z-20">夜勤</td>
-          <td class="border p-1 text-gray-700 text-center sticky top-0 z-20">休み</td>
-        </tr>
-      </thead>
-      <thead>
-        <tr>
-          <th></th>
-          <!-- 曜日 -->
-          <td></td>
-          <!-- 記述なし -->
-          <td class="border w-12 text-gray-700 text-center sticky top-0 z-20"></td>
-          <td class="border w-12 text-gray-700 text-center sticky top-0 z-20"></td>
-          <td class="border w-12 text-gray-700 text-center sticky top-0 z-20"></td>
-          <td class="border w-12 text-gray-700 text-center sticky top-0 z-20"></td>
-          <td class="border w-12 text-gray-700 text-center sticky top-0 z-20"></td>
-        </tr>
-      </thead>
-      <thead>
-        <tr>
-          <th class="sticky left-0 z-10 border text-center text-gray-700 py-10">委員会 <br> 予定 <br> 行事</th>
-
-          <!-- メモ -->
-          <td></td>
-
-          <!-- 以下記述なし -->
-          <td class="border text-gray-700 text-center"></td>
-          <td class="border text-gray-700 text-center"></td>
-          <td class="border text-gray-700 text-center"></td>
-          <td class="border text-gray-700 text-center"></td>
-          <td class="border text-gray-700 text-center"></td>
-        </tr>
-      </thead>
-      <thead>
-        <tr>
-          <!-- 従業員名 -->
-          <th class="border">test</th>
-          <!-- シフト -->
-          <td></td>
-          <!-- シフトカウント -->
-          <td class="border text-gray-700 text-center"></td>
-          <td class="border text-gray-700 text-center"></td>
-          <td class="border text-gray-700 text-center"></td>
-          <td class="border text-gray-700 text-center"></td>
-          <td class="border text-gray-700 text-center"></td>
-        </tr>
-      </thead>
-    </table>
-  </main>
+  </main>  
 </div>
 </body>

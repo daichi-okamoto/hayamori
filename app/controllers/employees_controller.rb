@@ -8,6 +8,9 @@ class EmployeesController < ApplicationController
   def create
   end
 
+  def edit
+  end
+
   def destroy
   end
 

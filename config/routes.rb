@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'employees/destroy'
   get 'employees/show'
   get 'employees/update'
+  get 'employees/edit'
   get 'shifts/index'
   get 'shifts/new'
   get 'shifts/create'
