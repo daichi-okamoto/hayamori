@@ -1,0 +1,27 @@
+<% flash.each do |message_type, message| %>
+  <div class="flash <%= flash_design(message_type) %> flex transition-opacity duration-500 ease-in-out">
+    <% if message_type.to_sym == :success %>
+      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#38bdf8">
+        <path d="M382-253.85 168.62-467.23 211.38-510 382-339.38 748.62-706l42.76 42.77L382-253.85Z"/>
+      </svg>
+    <% else %>
+      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#fb7185">
+        <path d="M256-213.85 213.85-256l224-224-224-224L256-746.15l224 224 224-224L746.15-704l-224 224 224 224L704-213.85l-224-224-224 224Z"/>
+      </svg>
+    <% end %>
+    <%= message %>
+  </div>
+<% end %>
+
+<!-- 5秒後にフラッシュメッセージを削除 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      const flashes = document.querySelectorAll('.flash');
+      flashes.forEach(function(flash) {
+        flash.classList.add('opacity-0');
+        setTimeout(() => flash.remove(), 500); // さらに0.5秒後に要素を削除
+      });
+    }, 5000);
+  });
+</script>
