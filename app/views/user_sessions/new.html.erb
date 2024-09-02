@@ -1,0 +1,48 @@
+<body>
+  <header class="bg-slate-100 border-b">
+    <div class="flex justify-between container mx-auto py-2">
+      <h1>
+        <%= link_to root_path, class: 'flex' do %>
+          <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#334155">
+            <path d="M180-80q-24 0-42-18t-18-42v-620q0-24 18-42t42-18h65v-60h65v60h340v-60h65v60h65q24 0 42 18t18 42v260h-60v-70H180v430h320v60H180Zm0-550h600v-130H180v130Zm0 0v-130 130ZM560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T902.09-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z"/>
+          </svg>
+          <span class="flex items-center text-slate-700 text-xl  font-bold ml-1">Care Shift</span>
+        <% end %>
+      </h1>
+      <ul class="flex items-center space-x-2">
+        <li><%= link_to 'ログイン', login_path, class: 'border py-2 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95' %></li>
+        <li><%= link_to '新規登録', new_user_path, class: 'border py-2 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95' %></li>
+      </ul>
+    </div>
+  </header>
+  <main class="flex-1 flex items-center justify-center h-[calc(100vh-64px)] bg-slate-50 p-6">
+    <div class="max-w-lg w-full mx-auto bg-white p-6 rounded-lg shadow-md">
+      <!-- ログインフォームの開始 -->
+      <%= form_with url: login_path, local: true do |f| %>
+        <!-- タイトルと戻るボタン -->
+        <div class="flex justify-between items-center mb-6 pb-2 border-b">
+          <h2 class="text-2xl text-gray-600">ログイン</h2>
+          <%= link_to '新規登録はこちら', new_user_path, class: 'bg-white border text-sm text-gray-500 font-bold px-3 py-1 rounded hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95' %>
+        </div>
+
+        <!-- メールアドレス入力欄 -->
+        <div class="mb-4">
+          <%= f.label :email, 'メールアドレス', class: 'block text-gray-600' %>
+          <%= f.email_field :email, class: 'w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400' %>
+        </div>
+
+        <!-- パスワード入力欄 -->
+        <div class="mb-4">
+          <%= f.label :password, 'パスワード', class: 'block text-gray-600' %>
+          <%= f.password_field :password, class: 'w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400' %>
+        </div>
+
+        <!-- 送信ボタン -->
+        <div class="flex justify-center">
+          <%= f.submit 'ログイン', class: 'bg-sky-400 w-full font-bold text-white py-2 mt-4 rounded hover:bg-sky-500 duration-300 transition active:scale-95' %>
+        </div>
+      <% end %>
+      <!-- ログインフォームの終了 -->
+    </div>
+  </main>
+</body>

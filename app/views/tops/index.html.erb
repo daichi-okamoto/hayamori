@@ -2,16 +2,16 @@
   <header class="bg-slate-100 border-b">
     <div class="flex justify-between container mx-auto py-2">
       <h1>
-        <a href="#" class="flex">
+        <%= link_to root_path, class: 'flex' do %>
           <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#334155">
             <path d="M180-80q-24 0-42-18t-18-42v-620q0-24 18-42t42-18h65v-60h65v60h340v-60h65v60h65q24 0 42 18t18 42v260h-60v-70H180v430h320v60H180Zm0-550h600v-130H180v130Zm0 0v-130 130ZM560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T902.09-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z"/>
           </svg>
           <span class="flex items-center text-slate-700 text-xl  font-bold ml-1">Care Shift</span>
-        </a> 
+        <% end %>
       </h1>
       <ul class="flex items-center space-x-2">
-        <li><button href="#" class="border py-2 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95">ログイン</button></li>
-        <li><button href="#" class="border py-2 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95">新規登録</button></li>
+        <li><%= link_to 'ログイン', login_path, class: 'border py-2 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95' %></li>
+        <li><%= link_to '新規登録', new_user_path, class: 'border py-2 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95' %></li>
       </ul>
     </div>
   </header>
@@ -23,9 +23,7 @@
       <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-center bg-black bg-opacity-30">
         <p class="text-2xl font-bold mb-4">シフト作成を自動化</p>
         <p class="text-lg mb-6">介護施設に特化したシフト自動作成サービス <br> 「Care Sift」です</p>
-        <a href="#">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-3 px-5 rounded duration-300 transition active:scale-95 hover:underline">今すぐ登録する</button>
-        </a>
+        <%= link_to '今すぐ登録する', new_user_path, class: 'bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-3 px-5 rounded duration-300 transition active:scale-95 hover:underline' %>
       </div>
     </div>
     <section class="border-b border-sky-300 border-opacity-50 pb-20">
@@ -47,6 +45,14 @@
             <p class="text-gray-600 mb-8">
               スタッフを追加し、勤務希望を入力します。その後シフト作成ボタンを押すだけで1ヶ月分のシフトを自動で作成できます。夜勤の翌日は休み、最大5連勤までといった制約を設けてシフト割り当てを行っています。誰でも簡単に、直感的に操作できます。
             </p>
+            <div class="flex items-center hover:underline">
+              <%= link_to new_user_path, class: 'text-sky-400 text-sm flex items-center' do %>
+                <span>登録はこちらから</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#38bdf8">
+                  <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                </svg>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
@@ -66,6 +72,14 @@
             <p class="text-gray-600 mb-8">
               自動で作成したシフトも微調整したい時があると思います。シフトの微調整も、シフト編集ボタンから簡単に編集できます。変更したいスタッフのシフトを選択し、勤務を選択して保存するだけでシフトの変更が可能です。
             </p>
+            <div class="flex items-center hover:underline">
+              <%= link_to new_user_path, class: 'text-sky-400 text-sm flex items-center' do %>
+                <span>登録はこちらから</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#38bdf8">
+                  <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                </svg>
+              <% end %>
+            </div>
           </div>
           <!-- 画像 -->
           <img src="images/shift-edit.png" alt="" class="w-full h-auto rounded border-8 border-sky-400 border-opacity-30">
@@ -90,6 +104,14 @@
             <p class="text-gray-600 mb-8">
               作成したシフトをエクセルファイルでダウンロードができます。「Excelに出力」ボタンを押すだけでダウンロードが始まります。ダウンロードしたファイルをエクセルで開いてシフトの編集、印刷を行うことができます。
             </p>
+            <div class="flex items-center hover:underline">
+              <%= link_to new_user_path, class: 'text-sky-400 text-sm flex items-center' do %>
+                <span>登録はこちらから</span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#38bdf8">
+                  <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
+                </svg>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
