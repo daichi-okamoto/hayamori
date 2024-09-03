@@ -87,51 +87,58 @@
       <!-- タイトルと戻るボタン -->
       <div class="flex justify-between items-center mb-6 pb-2 border-b">
         <h2 class="text-2xl text-gray-600">スタッフ編集</h2>
-        <button class="bg-white border text-gray-600 font-medium px-3 py-1 rounded hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95">戻る</button>
+        <%= link_to "戻る", dashboard_index_path, class: "bg-white border text-gray-600 font-medium px-3 py-1 rounded hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95" %>
       </div>
+      <%= form_with(model: @employee, local: true) do |form| %>
 
       <!-- 名前入力欄 -->
       <div class="mb-4">
-        <label for="name" class="block text-gray-600">名前</label>
-        <input type="text" id="name" name="名前" class="w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400">
+        <%= form.label :name, "名前", class: "block font-medium text-gray-600" %>
+        <%= form.text_field :name, class: "w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400" %>
+        <label for="name" class="block ">名前</label>
+        <!-- <input type="text" id="name" name="名前" class="w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400"> -->
       </div>
   
       <!-- 雇用形態のセレクトボックス -->
       <div class="mb-4">
-        <label for="employment_type" class="block text-gray-600">雇用形態</label>
-        <select id="employment_type" name="employment_type" class="w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400">
-          <option value="">選択してください</option>
-          <option value="正社員">正社員</option>
-          <option value="パート">パート</option>
-          <option value="派遣">派遣</option>
-        </select>
+        <%= form.label :employee_type, "雇用形態", class: "block font-medium text-gray-600" %>
+        <%= form.select :employee_type, options_for_select([["選択してください", nil], "正社員", "パート", "派遣"]), {}, class: "w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400" %>
       </div>
   
       <!-- 勤務可能シフトのチェックボックス -->
       <div class="mb-4">
         <label class="block text-gray-600 mb-1">勤務可能シフト</label>
         <div class="flex items-center mb-2">
-          <input type="checkbox" id="early_shift" name="shifts" value="早番" class="h-5 w-5 rounded cursor-pointer">
-          <label for="early_shift" class="pl-1 text-gray-600 cursor-pointer">早番</label>
+          <label class="text-gray flex items-center">
+            <%= form.check_box :early_shift, class: "rounded-sm w-5 h-5" %>
+            <span class="pl-1 text-gray-600 cursor-pointer">早番</span>
+          </label>
         </div>
         <div class="flex items-center mb-2">
-          <input type="checkbox" id="day_shift" name="shifts" value="日勤" class="h-5 w-5 rounded cursor-pointer">
-          <label for="day_shift" class="pl-1 text-gray-600 cursor-pointer">日勤</label>
+          <label class="text-gray flex items-center">
+            <%= form.check_box :day_shift, class: "rounded-sm w-5 h-5" %>
+            <span class="pl-1 text-gray-600 cursor-pointer">日勤</span>
+          </label>
         </div>
         <div class="flex items-center mb-2">
-          <input type="checkbox" id="late_shift" name="shifts" value="遅番" class="h-5 w-5 rounded cursor-pointer">
-          <label for="late_shift" class="pl-1 text-gray-600 cursor-pointer">遅番</label>
+          <label class="text-gray flex items-center">
+            <%= form.check_box :late_shift, class: "rounded-sm w-5 h-5" %>
+            <span class="pl-1 text-gray-600 cursor-pointer">遅番</span>
+          </label>
         </div>
         <div class="flex items-center mb-2">
-          <input type="checkbox" id="night_shift" name="shifts" value="夜勤" class="h-5 w-5 rounded cursor-pointer">
-          <label for="night_shift" class="pl-1 text-gray-600 cursor-pointer">夜勤 </label>
+          <label class="text-gray flex items-center">
+            <%= form.check_box :night_shift, class: "rounded-sm w-5 h-5" %>
+            <span class="pl-1 text-gray-600 cursor-pointer">夜勤</span>
+          </label>
         </div>
       </div>
   
       <!-- 送信ボタン -->
       <div class="flex justify-center">
-        <button class="bg-sky-400 w-full font-bold text-white py-2 mt-4 rounded hover:bg-sky-500 duration-300 transition active:scale-95">変更</button>
+        <%= form.submit "変更", class: "bg-sky-400 w-full font-bold text-white py-2 mt-4 rounded hover:bg-sky-500 duration-300 transition active:scale-95" %>
       </div>
+    <% end %>
     </div>
   </main>  
 </div>

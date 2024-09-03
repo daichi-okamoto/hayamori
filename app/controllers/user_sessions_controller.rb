@@ -7,7 +7,7 @@ class UserSessionsController < ApplicationController
     @user = login(params[:email], params[:password])
 
     if @user
-      flash[:success]   = 'ユーザー登録が完了しました'
+      flash[:success] = 'ログインしました'
       redirect_to dashboard_index_path
     else
       flash.now[:danger] = 'ログインに失敗しました'
