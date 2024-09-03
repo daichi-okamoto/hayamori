@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  get 'employees/index'
-  get 'employees/new'
-  get 'employees/create'
-  get 'employees/destroy'
-  get 'employees/show'
-  get 'employees/update'
-  get 'employees/edit'
   get 'shifts/index'
   get 'shifts/new'
   get 'shifts/create'
@@ -15,6 +8,9 @@ Rails.application.routes.draw do
 
   # ユーザー登録画面
   resources :users, only: %i[new create]
+
+  # スタッフ管理画面
+  resources :employees
 
   # ログイン画面
   get 'login', to: 'user_sessions#new'
