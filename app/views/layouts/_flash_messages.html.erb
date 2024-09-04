@@ -15,7 +15,7 @@
 
 <!-- 5秒後にフラッシュメッセージを削除 -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('turbo:load', function() {
     setTimeout(function() {
       const flashes = document.querySelectorAll('.flash');
       flashes.forEach(function(flash) {

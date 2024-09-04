@@ -24,12 +24,15 @@
         <span class="flex items-center text-slate-700 text-xl  font-bold ml-1">Care Shift</span>
       </a> 
     </h1>
+    <div class="flex items-center lg:hidden cursor-pointer">
+      <i class="fa-solid fa-bars"></i>
+    </div>
   </div>
 </header>
 
 <div class="flex">
   <!-- サイドバー -->
-  <aside class="sidebar w-60 bg-slate-100 shadow-lg text-slate-600 flex-shrink-0 flex flex-col justify-between">
+  <aside class="sidebar w-60 bg-slate-100 shadow-lg text-slate-500 flex-shrink-0 lg:flex flex-col justify-between hidden">
     <div class="p-4">
       <nav>
         <ul>
@@ -84,19 +87,20 @@
   </aside>
 
   <!-- メインコンテンツ -->
-  <main class="flex-1 p-4 bg-slate-50">
-    <div class="flex justify-between items-center">
+  <main class="w-full lg:flex-1 p-4 bg-slate-50 h-[calc(100vh-64px)]">
+    <div class="flex justify-between items-center mb-4 lg:container lg:mx-auto">
       <h2 class="text-2xl">スタッフ表</h2>
       <%= render 'layouts/flash_messages' %>
       <%= link_to 'スタッフ追加', new_employee_path, class: "border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95" %>
     </div>
-    <table class="table table-fixed border-separate border-spacing-0 container mx-auto bg-white mt-4">
+    <div class="overflow-y-auto max-h-[780px] sm:max-h-[900px] md:max-h-[1000px] lg:max-h-[600px] xl:max-h-[600px]">
+      <table class="table table-fixed border-separate border-spacing-0 w-full lg:container lg:mx-auto bg-white">
       <thead>
         <tr class="sticky top-0 z-10 bg-white">
-          <th class="border border-b-4 border-gray-200 text-center text-gray-700 text-base py-3">名前</th>
-          <th class="border border-b-4 border-gray-200 text-center text-gray-700 text-base py-3">雇用形態</th>
-          <th class="border border-b-4 border-gray-200 text-center text-gray-700 text-base py-3">勤務可能シフト</th>
-          <th class="border border-b-4 border-gray-200 text-center text-gray-700 text-base py-3"></th>
+          <th class="border border-b-4 text-center text-gray-700 text-base py-3">名前</th>
+          <th class="border border-b-4 text-center text-gray-700 text-base py-3">雇用形態</th>
+          <th class="border border-b-4 text-center text-gray-700 text-base py-3">勤務可能シフト</th>
+          <th class="border border-b-4 text-center text-gray-700 text-base py-3"></th>
         </tr>
       </thead>
       <tbody>
@@ -128,7 +132,7 @@
           </td>
           <td class="text-center border">
             <div class="flex justify-center items-center space-x-2">
-              <%= link_to edit_employee_path(employee), class: "flex items-center font-semibold hover:bg-gray-100 rounded-sm p-1" do %>
+              <%= link_to edit_employee_path(employee), class: "flex items-center font-semibold hover:bg-gray-100 rounded-sm p-1 transition active:scale-95" do %>
               <!-- <a href="#" class="flex justify-center items-center space-x-1"> -->
                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#13b5ea">
                   <path d="M186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h389L509-773.33H186.67v586.66h586.66v-324.66L840-578v391.33q0 27-19.83 46.84Q800.33-120 773.33-120H186.67ZM480-480ZM360-360v-170l377-377q10-10 22.33-14.67 12.34-4.66 24.67-4.66 12.67 0 25.04 5 12.38 5 22.63 15l74 75q9.4 9.97 14.53 22.02 5.13 12.05 5.13 24.51 0 12.47-4.83 24.97-4.83 12.5-14.83 22.5L530-360H360Zm499-424.67-74.67-74.66L859-784.67Zm-432.33 358H502l246-246L710-710l-38.33-37.33-245 244.33v76.33ZM710-710l-38.33-37.33L710-710l38 37.33L710-710Z"/>
@@ -147,6 +151,7 @@
         <% end %>
       </tbody>
     </table>
+    </div>
   </main>
 </div>
 

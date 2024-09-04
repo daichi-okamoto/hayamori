@@ -94,13 +94,13 @@
       <!-- 名前入力欄 -->
       <div class="mb-4">
         <%= form.label :name, "名前", class: "block text-gray-600" %>
-        <%= form.text_field :name, class: "w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400" %>
+        <%= form.text_field :name, class: "w-full text-gray-600 text-sm border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-gray-300" %>
       </div>
   
       <!-- 雇用形態のセレクトボックス -->
       <div class="mb-4">
         <%= form.label :employee_type, "雇用形態", class: "block font-medium text-gray-600" %>
-        <%= form.select :employee_type, options_for_select([["選択してください", nil], "正社員", "パート", "派遣"]), {}, class: "w-full text-gray-600 text-sm border rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400" %>
+        <%= form.select :employee_type, options_for_select([["選択してください", nil], "正社員", "パート", "派遣"]), {}, class: "w-full text-gray-600 text-sm border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-gray-300" %>
       </div>
   
       <!-- 勤務可能シフトのチェックボックス -->
@@ -108,25 +108,25 @@
         <label class="block text-gray-600 mb-1">勤務可能シフト</label>
         <div class="flex items-center mb-2">
           <label class="text-gray flex items-center">
-            <%= form.check_box :early_shift, class: "rounded-sm w-5 h-5" %>
+            <%= form.check_box :early_shift, class: "rounded focus:ring-0 w-5 h-5" %>
             <span class="pl-1 text-gray-600 cursor-pointer">早番</span>
           </label>
         </div>
         <div class="flex items-center mb-2">
           <label class="text-gray flex items-center">
-            <%= form.check_box :day_shift, class: "rounded-sm w-5 h-5" %>
+            <%= form.check_box :day_shift, class: "rounded focus:ring-0 w-5 h-5" %>
             <span class="pl-1 text-gray-600 cursor-pointer">日勤</span>
           </label>
         </div>
         <div class="flex items-center mb-2">
           <label class="text-gray flex items-center">
-            <%= form.check_box :late_shift, class: "rounded-sm w-5 h-5" %>
+            <%= form.check_box :late_shift, class: "rounded focus:ring-0 w-5 h-5" %>
             <span class="pl-1 text-gray-600 cursor-pointer">遅番</span>
           </label>
         </div>
         <div class="flex items-center mb-2">
           <label class="text-gray flex items-center">
-            <%= form.check_box :night_shift, class: "rounded-sm w-5 h-5" %>
+            <%= form.check_box :night_shift, class: "rounded focus:ring-0 w-5 h-5" %>
             <span class="pl-1 text-gray-600 cursor-pointer">夜勤</span>
           </label>
         </div>

@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   # スタッフ管理画面
   resources :employees
 
+  # シフト管理画面
+  resources :shifts, only: %i[index new create edit update]
+
   # ログイン画面
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
