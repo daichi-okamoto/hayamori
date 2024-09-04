@@ -82,36 +82,31 @@
       </nav>
     </div>
   </aside>
-  <main class="flex-1">
+  <main class="flex-1 bg-slate-50">
     <div class="flex justify-between p-4">
       <div class="flex space-x-1">
-        <button class="border py-1 rounded text-gray-500 hover:bg-sky-400 hover:text-white duration-300 transition active:scale-95">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"width="24px" fill="currentColor">
+        <%= link_to shifts_path(year: @start_date.prev_month.year, month: @start_date.prev_month.month), class: "border py-1 rounded text-gray-500 hover:bg-sky-400 hover:text-white duration-300 transition active:scale-95" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
             <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
           </svg>
-        </button>
-        <h2 class="flex items-center text-gray-500 text-xl">2024年8月1日〜8月31日</h2>
-        <button class="border py-1 rounded text-gray-500 hover:bg-sky-400 hover:text-white duration-300 transition active:scale-95">
+        <% end %>
+        <h2 class="flex items-center text-gray-500 text-xl"><%= @shift_calendar %></h2>
+        <%= link_to shifts_path(year: @start_date.next_month.year, month: @start_date.next_month.month), class: "border py-1 rounded text-gray-500 hover:bg-sky-400 hover:text-white duration-300 transition active:scale-95" do %>
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
             <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
           </svg>
-        </button>
+        <% end %>
       </div>
       <button class="border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95">勤務希望を入力する</button>
     </div>
-    <table class="table-fixed border-separate border-spacing-0 mx-4 ">
-      <thead>
-        <tr>
-          <th></th>
-          <td></td>
-        </tr>
-      </thead>
+    <table class="table-fixed border-separate border-spacing-0 mx-4 bg-white">
       <thead>
         <tr>
           <th></th>
           <!-- 日付 -->
-          <td></td>
-
+          <% @calendar.each do |c| %>
+            <td class="border p-1"><%= "#{c.month}/#{c.day}" %></td>
+          <% end %>
           <td class="border p-1 text-gray-700 text-center sticky top-0 z-20">早番</td>
           <td class="border p-1 text-gray-700 text-center sticky top-0 z-20">日勤</td>
           <td class="border p-1 text-gray-700 text-center sticky top-0 z-20">遅番</td>
@@ -123,7 +118,21 @@
         <tr>
           <th></th>
           <!-- 曜日 -->
-          <td></td>
+          <% @calendar.each do |c| %>
+            <% if c.wday == 0 %>
+              <td class="border p-1 text-red-400 text-center sticky top-8 z-10 font-semibold">
+                <%= @weeks[c.wday] %>
+              </td>
+            <% elsif c.wday == 6 %>
+              <td class="border p-1 text-sky-400 text-center sticky top-8 z-10 font-semibold">
+                <%= @weeks[c.wday] %>
+              </td>
+            <% else %>
+              <td class="border text-gray-700 p-1 text-center sticky top-8 z-10 font-semibold">
+                <%= @weeks[c.wday] %>
+              </td>
+            <% end %>
+          <% end %>
           <!-- 記述なし -->
           <td class="border w-12 text-gray-700 text-center sticky top-0 z-20"></td>
           <td class="border w-12 text-gray-700 text-center sticky top-0 z-20"></td>
@@ -150,8 +159,16 @@
       <thead>
         <tr>
           <!-- 従業員名 -->
-          <th class="border">test</th>
-          <!-- シフト -->
+          <% @employees.each do |e| %>
+            <% if e.employee_type == '正社員' %>
+              <th class="sticky left-0 z-20 border p-2 text-center text-sky-400"><%= e.name %></th>
+            <% elsif e.employee_type == 'パート' %>
+              <th class="sticky left-0 z-20 border p-2 text-center text-green-500"><%= e.name %></th>
+            <% else %>
+              <th class="sticky left-0 z-20 border p-2 text-center text-gray-700"><%= e.name %></th>
+            <% end %>
+            <!-- シフト -->
+          <% end %>
           <td></td>
           <!-- シフトカウント -->
           <td class="border text-gray-700 text-center"></td>

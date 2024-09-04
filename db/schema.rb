@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_02_084035) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_04_224545) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,44 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_02_084035) do
     t.index ["user_id"], name: "index_employees_on_user_id"
   end
 
+  create_table "memos", force: :cascade do |t|
+    t.date "date"
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.integer "shift_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_memos_on_user_id"
+  end
+
+  create_table "shift_requests", force: :cascade do |t|
+    t.bigint "employee_id", null: false
+    t.date "date"
+    t.string "shift_type"
+    t.bigint "shift_requests_id"
+    t.bigint "shift_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["employee_id"], name: "index_shift_requests_on_employee_id"
+    t.index ["shift_id"], name: "index_shift_requests_on_shift_id"
+    t.index ["shift_requests_id"], name: "index_shift_requests_on_shift_requests_id"
+    t.index ["user_id"], name: "index_shift_requests_on_user_id"
+  end
+
+  create_table "shifts", force: :cascade do |t|
+    t.date "date"
+    t.string "shift_type"
+    t.bigint "employee_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_shifts_on_date"
+    t.index ["employee_id", "date"], name: "index_shifts_on_employee_id_and_date", unique: true
+    t.index ["employee_id"], name: "index_shifts_on_employee_id"
+    t.index ["user_id"], name: "index_shifts_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "crypted_password"
@@ -38,4 +76,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_02_084035) do
   end
 
   add_foreign_key "employees", "users"
+  add_foreign_key "memos", "users"
+  add_foreign_key "shift_requests", "employees"
+  add_foreign_key "shift_requests", "shift_requests", column: "shift_requests_id"
+  add_foreign_key "shift_requests", "shifts"
+  add_foreign_key "shift_requests", "users"
+  add_foreign_key "shifts", "employees"
+  add_foreign_key "shifts", "users"
 end
