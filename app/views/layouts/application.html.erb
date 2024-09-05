@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    
     <%= javascript_importmap_tags %>
+    <link rel="stylesheet" href="/assets/application.css" data-turbo-track="reload">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+      /* ヘッダーの高さを除外したサイドバーの高さを設定 */
+      .sidebar {
+        height: calc(100vh - 64px); /* 64px はヘッダーの高さ */
+      }
+    </style>
   </head>
 
   <body>
-      <%= yield %>
-    </main>
+    <%= yield %>
   </body>
 </html>
