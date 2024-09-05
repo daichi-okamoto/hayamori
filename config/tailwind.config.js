@@ -1,5 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-
+mode: 'jit', 
 module.exports = {
   content: [
     './public/*.html',
