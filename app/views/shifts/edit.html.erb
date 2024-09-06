@@ -69,21 +69,22 @@
       </div>
     </aside>
     <main class="lg:flex-1 mx-auto sm:w-full lg:w-9/12 xl:w-9/12 h-[calc(100vh-64px)] bg-slate-50">
-      <div class="flex justify-between p-4 ">
-        <div class="flex space-x-1">
-          <p class="flex items-center text-gray-600 text-lg font-bold">
-            シフトを作成してください
-          </p>
+      <% @employees.each do |e| %>
+        <% @calendar.each_with_index do |c, index| %>
+          <% shift = @schedule_output[e.name]&.at(index) %>
+          <input type="hidden" name="shifts[][date]" value="<%= c %>">
+          <input type="hidden" name="shifts[][shift_type]" value="<%= shift %>">
+          <input type="hidden" name="shifts[][employee_id]" value="<%= e.id %>">
+        <% end %>
+      <% end %>
+        <div class="flex justify-between p-4 ">
+          <div class="flex space-x-1">
+            <p class="flex items-center text-gray-600 text-lg font-bold">
+              シフトを保存してください
+            </p>
+          </div>
+          <%= submit_tag 'シフトを保存', class: 'border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95' %>
         </div>
-        <div class="flex space-x-2">
-          <%= form_with url: create_schedule_path, method: :post, local: true do |form| %>
-            <%= form.hidden_field :year, value: @year %>
-            <%= form.hidden_field :month, value: @month %>
-            <%= form.submit 'シフト作成', class: "border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95" %>
-          <% end %>
-          <%= link_to '勤務希望入力に戻る', new_shift_request_path, class: "border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95" %>
-        </div>
-      </div>
     <div class="overflow-auto overflow-y-auto sm:w-11/12 md:w-11/12 lg:w-[calc(100%-40px)] xl:w-[calc(100%-34px)] sm:max-h-[900px] md:max-h-[1000px] lg:h-[calc(100vh-150px)] xl:h-[calc(100vh-144px)] 2xl:h-[calc(100vh-144px)] mx-4">
       <table class="table-fixed w-full border-separate border-spacing-0 bg-white">
         <thead>
@@ -114,12 +115,6 @@
                 </td>
               <% end %>
             <% end %>
-            <!-- 記述なし -->
-            <td class="border w-12 bg-white sticky top-8 z-20"></td>
-            <td class="border w-12 bg-white sticky top-8 z-20"></td>
-            <td class="border w-12 bg-white sticky top-8 z-20"></td>
-            <td class="border w-12 bg-white sticky top-8 z-20"></td>
-            <td class="border w-12 bg-white sticky top-8 z-20"></td>
           </tr>
         </thead>
         <thead>
@@ -128,15 +123,8 @@
   
             <!-- メモ -->
             <% @calendar.each do |c| %>
-              <td class="border text-sm"><%= @memos[c]&.content %></td>
+              <td class="border"><%= @memos[c]&.content %></td>
             <% end %>
-  
-            <!-- 以下記述なし -->
-            <td class="border"></td>
-            <td class="border"></td>
-            <td class="border"></td>
-            <td class="border"></td>
-            <td class="border"></td>
           </tr>
         </thead>
         <thead>
@@ -151,15 +139,30 @@
                 <th class="sticky left-0 z-20 border bg-white p-2 text-center text-gray-700"><%= e.name %></th>
               <% end %>
               <!-- シフト -->
-              <% @calendar.each do |c| %>
+              <% @calendar.each_with_index do |c, index| %>
                 <td class="border p-2 text-center text-gray-700">
-                  <% shift_request = @shift_requests[e.id]&.find { |s| s.date == c } %>
-                  <%= shift_request ? format_display_shift_type(shift_request.shift_type) : '' %>
+                  <% if @schedule_output[e.name] %>
+                    <% shift = @schedule_output[e.name][index] %>
+                    <% case shift %>
+                    <% when "早番" %>
+                      H
+                    <% when "日勤" %>
+                      &nbsp; <!-- 空白にする -->
+                    <% when "遅番" %>
+                      O
+                    <% when "夜勤", "夜勤明け" %>
+                      Y
+                    <% when "休み" %>
+                      ⚫️
+                    <% else %>
+                      <%= shift %>
+                    <% end %>
+                  <% end %>
                 </td>
               <% end %>
             </tr>
           </thead>
-          <% end %>
+        <% end %>
       </table>
     </div>
     </main>

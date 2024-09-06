@@ -72,7 +72,9 @@
       <%= form_with model: @shift_request, url: shift_requests_path, method: :post, local: true, data: { turbo: false } do |form| %>
       <div class="flex justify-between p-4 ">
         <div class="flex space-x-1">
-          <p class="flex items-center text-gray-600 text-lg font-bold">勤務希望を入力してください</p>
+          <p class="flex items-center text-gray-600 text-lg font-bold">
+            勤務希望を入力してください
+          </p>
         </div>
         <div class="flex space-x-2">
           <%= form.hidden_field :year, value: @year %>

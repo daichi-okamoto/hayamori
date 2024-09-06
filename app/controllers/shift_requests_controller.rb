@@ -41,13 +41,11 @@ class ShiftRequestsController < ApplicationController
     flash[:success] = '勤務希望を保存しました'
     redirect_to new_shift_path(year: params[:shift_request][:year], month: params[:shift_request][:month])
   rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "Failed to save: #{e.record.errors.full_messages}"
     flash[:danger] = '勤務希望の保存に失敗しました'
     render :new, status: :unprocessable_entity
   end
 
   def destroy
-    # current_userに関連する勤務希望のみを削除
     @shift_request = current_user.shift_requests.find(params[:id])
     @shift_request.destroy
     redirect_to shift_requests_path
