@@ -3,6 +3,7 @@ class ShiftsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create_schedule]
 
   def index
+    Rails.logger.debug "Calling set_month_data in ShiftsController#index"
     set_month_data(params[:year], params[:month])
     @employees = current_user.employees
     @shifts = Shift.where(employee_id: @employees.pluck(:id)).group_by(&:employee_id)
@@ -77,6 +78,7 @@ class ShiftsController < ApplicationController
   end
 
   def create_schedule
+    Rails.logger.debug "Calling set_month_data in ShiftsController#create_schedule"
     set_month_data(params[:year], params[:month]) 
     @employees = current_user.employees
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
@@ -102,19 +104,22 @@ class ShiftsController < ApplicationController
       dates: dates.map(&:to_s)
     }
 
+    Rails.logger.info "Data for Python script: #{data.inspect}"
     json_data = data.to_json
 
-    output = IO.popen("python3 #{Rails.root.join('lib', 'shift_test.py')}", "r+") do |f|
+    output = IO.popen("python3 #{Rails.root.join('lib', 'shift_create.py')}", "r+") do |f|
       f.puts json_data
       f.close_write
       f.read
     end
 
+    Rails.logger.info "Python script output: #{output}"
+
     begin
       parsed_output = JSON.parse(output)
       if parsed_output.key?("Error")
         clear_shift_requests_and_memos(@start_date, @end_date)
-        flash[:danger] = 'シフトを作成できませんでした。勤務希望を再度調整してください'
+        flash[:danger] = 'シフトを作成できませんでした。勤務希望を再度調整してください。またはスタッフを追加してください'
         redirect_to new_shift_request_path(year: params[:year], month: params[:month]) and return
       end
       @schedule_output = parsed_output.empty? ? {}: parsed_output
@@ -123,6 +128,8 @@ class ShiftsController < ApplicationController
       Rails.logger.error "Failed output: #{output}"
       @schedule_output = {}
     end
+
+    Rails.logger.info "Parsed schedule output: #{@schedule_output.inspect}"
 
     flash.now[:success] = 'シフトを作成しました'
     render :edit, status: :unprocessable_entity
@@ -142,9 +149,7 @@ class ShiftsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       Shift.where(date: start_date..end_date, employee_id: current_user.employees.pluck(:id)).destroy_all
-
       ShiftRequest.where(date: start_date..end_date, user_id: current_user.id).destroy_all
-
       Memo.where(date: start_date..end_date, user_id: current_user.id).destroy_all
     end
 
