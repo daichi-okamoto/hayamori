@@ -1,10 +1,21 @@
 Rails.application.routes.draw do
-  get 'shifts/index'
-  get 'shifts/new'
-  get 'shifts/create'
+  get 'contacts/new'
+  get 'contacts/create'
   get 'dashboard/index'
+  get 'shifts/edit_schedule', to: 'shifts#edit_schedule', as: 'edit_schedule'
+  get 'shifts/export_excel', to: 'shifts#export_excel', defaults: { format: :xlsx }, as: 'export_excel'
+  get 'privacy_policy', to: 'static_pages#privacy_policy'
+  get 'inquiry', to: 'static_pages#inquiry'
+  post 'shifts/create_schedule', to: 'shifts#create_schedule', as: 'create_schedule'
+  patch 'shifts/update_schedule', to: 'shifts#update_schedule', as: 'update_schedule'
+  delete 'shifts/destroy_all', to: 'shifts#destroy_all', as: 'destroy_all_shifts'
+  
+  # トップページ
   get 'tops/index'
   root 'tops#index'
+  
+  # ダッシュボード
+  get 'dashboard/index'
 
   # ユーザー登録画面
   resources :users, only: %i[new create]
@@ -14,6 +25,9 @@ Rails.application.routes.draw do
 
   # シフト管理画面
   resources :shifts, only: %i[index new create edit update]
+
+  # 勤務希望入力画面
+  resources :shift_requests, only: %i[new create destroy]
 
   # ログイン画面
   get 'login', to: 'user_sessions#new'
