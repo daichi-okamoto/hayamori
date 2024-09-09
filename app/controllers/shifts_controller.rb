@@ -141,6 +141,7 @@ class ShiftsController < ApplicationController
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
     @shifts = Shift.where(date: @start_date..@end_date, employee_id: @employees.pluck(:id)).group_by(&:employee_id)
     @shifts.default = [] 
+    @shift_counts = sum_shift_counts(@employees, @shifts, @calendar)
   end
 
   def destroy_all

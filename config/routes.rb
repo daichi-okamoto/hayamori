@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'contacts/new'
+  
   get 'contacts/create'
   get 'dashboard/index'
   get 'shifts/edit_schedule', to: 'shifts#edit_schedule', as: 'edit_schedule'
@@ -29,8 +29,13 @@ Rails.application.routes.draw do
   # 勤務希望入力画面
   resources :shift_requests, only: %i[new create destroy]
 
+  # お問い合わせフォーム
+  resources :contacts, only: [:new, :create]
+
   # ログイン画面
   get 'login', to: 'user_sessions#new'
   post 'login', to: 'user_sessions#create'
+
+  # ログアウト
   delete 'logout', to: 'user_sessions#destroy'
 end

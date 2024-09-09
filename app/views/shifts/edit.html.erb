@@ -69,6 +69,7 @@
       </div>
     </aside>
     <main class="lg:flex-1 mx-auto sm:w-full lg:w-9/12 xl:w-9/12 h-[calc(100vh-64px)] bg-slate-50">
+      <%= form_with url: shifts_path, method: :post, local: true do %>
       <% @employees.each do |e| %>
         <% @calendar.each_with_index do |c, index| %>
           <% shift = @schedule_output[e.name]&.at(index) %>
@@ -83,8 +84,12 @@
               シフトを保存してください
             </p>
           </div>
-          <%= submit_tag 'シフトを保存', class: 'border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95' %>
+          <%= render 'layouts/flash_messages' %>
+          <div>
+            <%= submit_tag 'シフトを保存', class: 'border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95' %>
+          </div>
         </div>
+      <% end %>
     <div class="overflow-auto overflow-y-auto sm:w-11/12 md:w-11/12 lg:w-[calc(100%-40px)] xl:w-[calc(100%-34px)] sm:max-h-[900px] md:max-h-[1000px] lg:h-[calc(100vh-150px)] xl:h-[calc(100vh-144px)] 2xl:h-[calc(100vh-144px)] mx-4">
       <table class="table-fixed w-full border-separate border-spacing-0 bg-white">
         <thead>
@@ -119,11 +124,12 @@
         </thead>
         <thead>
           <tr>
-            <th class="sticky left-0 z-10 bg-white border text-center text-gray-600 py-16">委員会 <br> 予定 <br> 行事</th>
-  
+            <th class="sticky left-0 z-10 bg-white border text-center text-gray-600 py-16">
+              委員会 <br> 予定 <br> 行事
+            </th>
             <!-- メモ -->
             <% @calendar.each do |c| %>
-              <td class="border"><%= @memos[c]&.content %></td>
+              <td class="border text-gray-600 text-sm writing-mode-vertical"><%= @memos[c]&.content %></td>
             <% end %>
           </tr>
         </thead>
