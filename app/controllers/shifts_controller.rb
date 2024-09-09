@@ -3,7 +3,6 @@ class ShiftsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create_schedule]
 
   def index
-    Rails.logger.debug "Calling set_month_data in ShiftsController#index"
     set_month_data(params[:year], params[:month])
     @employees = current_user.employees
     @shifts = Shift.where(employee_id: @employees.pluck(:id)).group_by(&:employee_id)
@@ -78,7 +77,6 @@ class ShiftsController < ApplicationController
   end
 
   def create_schedule
-    Rails.logger.debug "Calling set_month_data in ShiftsController#create_schedule"
     set_month_data(params[:year], params[:month]) 
     @employees = current_user.employees
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
