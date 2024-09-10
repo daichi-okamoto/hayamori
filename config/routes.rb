@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :shifts, only: %i[index new create edit update]
 
   # 勤務希望入力画面
-  resources :shift_requests, only: %i[new create destroy]
+  resources :shift_requests, only: %i[new create destroy edit update]
 
   # お問い合わせフォーム
   resources :contacts, only: [:new, :create]

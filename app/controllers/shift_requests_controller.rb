@@ -1,17 +1,13 @@
 class ShiftRequestsController < ApplicationController
-  before_action :set_common_data, only: [:new, :create]
+  before_action :set_common_data, only: [:new, :create, :edit, :update]
 
   def new
     @shift_request = ShiftRequest.new
   end
 
   def create
-    Rails.logger.debug "Full params: #{params.inspect}"
     shift_requests_params = params[:shift_request][:shift_requests]&.to_unsafe_h || {}
     memos_params = params[:shift_request][:memos]&.to_unsafe_h || {}
-  
-    Rails.logger.debug "Shift requests params: #{shift_requests_params.inspect}"
-    Rails.logger.debug "Memos params: #{memos_params.inspect}"
   
     ActiveRecord::Base.transaction do
       shift_requests_params.each do |employee_id, shifts|
@@ -43,6 +39,59 @@ class ShiftRequestsController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     flash[:danger] = '勤務希望の保存に失敗しました'
     render :new, status: :unprocessable_entity
+  end
+
+  def edit
+    @year = @shift_request.year
+    @month = @shift_request.month
+  end
+
+  def update
+    shift_requests_params = params[:shift_request][:shift_requests]&.to_unsafe_h || {}
+    memos_params = params[:shift_request][:memos]&.to_unsafe_h || {}
+
+    ActiveRecord::Base.transaction do
+      # 既存の勤務希望を更新する
+      shift_requests_params.each do |employee_id, shifts|
+        shifts.each do |date, shift_type|
+          shift_request = ShiftRequest.find_by(user: current_user, employee_id: employee_id, date: Date.parse(date))
+          
+          if shift_request
+            if shift_type.blank?
+              shift_request.destroy
+            else
+              shift_request.update!(
+                shift_type: format_shift_type(shift_type)
+              )
+            end
+          elsif shift_type.present?
+            ShiftRequest.create!(
+              employee_id: employee_id,
+              date: Date.parse(date),
+              shift_type: format_shift_type(shift_type),
+              user: current_user
+            )
+          end
+        end
+      end
+
+      # 既存のメモを更新する
+      memos_params.each do |date, content|
+        memo = Memo.find_or_initialize_by(user: current_user, date: Date.parse(date))
+        
+        if content.blank?
+          memo.destroy if memo.persisted?
+        else
+          memo.update!(content: content)
+        end
+      end
+    end
+
+    flash[:success] = '勤務希望を保存しました'
+    redirect_to new_shift_path(year: params[:shift_request][:year], month: params[:shift_request][:month])
+  rescue ActiveRecord::RecordInvalid => e
+    flash[:danger] = '勤務希望の保存に失敗しました'
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy
