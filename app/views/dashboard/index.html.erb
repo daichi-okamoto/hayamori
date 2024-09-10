@@ -1,3 +1,4 @@
+<% content_for(:title, 'スタッフ管理') %>
 <body>
   <%= render 'layouts/header' %>
 <div class="flex">
@@ -12,6 +13,7 @@
       <%= link_to 'スタッフ追加', new_employee_path, class: "border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95" %>
     </div>
     <div class="overflow-y-auto max-h-[780px] sm:max-h-[900px] md:max-h-[1000px] lg:max-h-[600px] xl:max-h-[600px]">
+      <% if @employees.any? %>
       <table class="table table-fixed border-separate border-spacing-0 w-full lg:container lg:mx-auto bg-white">
       <thead>
         <tr class="sticky top-0 z-10 bg-white">
@@ -69,6 +71,11 @@
         <% end %>
       </tbody>
     </table>
+    <% else %>
+      <div class="flex justify-center items-center">
+        <p class="text-xl text-gray-500">スタッフを追加してください</p>
+      </div>
+    <% end %>
     </div>
   </main>
 </div>
