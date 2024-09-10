@@ -1,0 +1,108 @@
+<% content_for(:title, '勤務希望入力') %>
+<body>
+  <%= render 'layouts/header' %>
+  
+  <div class="flex">
+    <!-- サイドバー -->
+    <%= render 'layouts/shift_sidebar' %>
+    <main class="lg:flex-1 mx-auto sm:w-full lg:w-9/12 xl:w-9/12 h-[calc(100vh-64px)] bg-slate-50">
+      <%= form_with model: @shift_request, url: shift_requests_path, method: :post, local: true, data: { turbo: false } do |form| %>
+      <div class="flex justify-between p-4 ">
+        <div class="flex space-x-1">
+          <p class="flex items-center text-gray-600 text-lg font-bold">
+            勤務希望を入力してください
+          </p>
+        </div>
+        <div class="flex space-x-2">
+          <%= form.hidden_field :year, value: @year %>
+          <%= form.hidden_field :month, value: @month %>
+          <%= form.submit '勤務希望を保存', class: "border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95 cursor-pointer" %>
+          <%= link_to "戻る", shifts_path, class: "border py-1 px-3 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95" %>
+        </div>
+      </div>
+    <div class="overflow-auto overflow-y-auto sm:w-11/12 md:w-11/12 lg:w-[calc(100%-40px)] xl:w-[calc(100%-34px)] sm:max-h-[900px] md:max-h-[1000px] lg:h-[calc(100vh-150px)] xl:h-[calc(100vh-155px)] 2xl:h-[calc(100vh-144px)] mx-4">
+      <table class="table-fixed w-full border-separate border-spacing-0 bg-white">
+        <thead>
+          <tr>
+            <th class="p-1 w-40 sticky left-0 top-0 z-20 bg-white text-gray-600 border">日付</th>
+            <!-- 日付 -->
+            <% @calendar.each do |c| %>
+              <td class="border p-1 w-16 text-center sticky top-0 z-10 bg-white text-gray-600 font-semibold"><%= "#{c.month}/#{c.day}" %></td>
+            <% end %>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th class="p-1 w-40 sticky left-0 top-8 z-20 bg-white text-gray-600 border">曜日</th>
+            <!-- 曜日 -->
+            <% @calendar.each do |c| %>
+              <% if c.wday == 0 %>
+                <td class="border p-1 text-red-400 text-center sticky top-8 bg-white z-10 font-semibold">
+                  <%= @weeks[c.wday] %>
+                </td>
+              <% elsif c.wday == 6 %>
+                <td class="border p-1 text-sky-400 text-center sticky top-8 bg-white z-10 font-semibold">
+                  <%= @weeks[c.wday] %>
+                </td>
+              <% else %>
+                <td class="border text-gray-600 p-1 text-center sticky top-8 bg-white z-10 font-semibold">
+                  <%= @weeks[c.wday] %>
+                </td>
+              <% end %>
+            <% end %>
+            <!-- 記述なし -->
+            <td class="border w-12 bg-white sticky top-8 z-20"></td>
+            <td class="border w-12 bg-white sticky top-8 z-20"></td>
+            <td class="border w-12 bg-white sticky top-8 z-20"></td>
+            <td class="border w-12 bg-white sticky top-8 z-20"></td>
+            <td class="border w-12 bg-white sticky top-8 z-20"></td>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th class="sticky left-0 z-10 bg-white border text-center text-gray-600 py-16">委員会 <br> 予定 <br> 行事</th>
+  
+            <!-- メモ -->
+            <% @calendar.each do |c| %>
+              <td class="border">
+                <div class="flex justify-center items-center">
+                  <%= form.text_area "memos[#{c}]", class: "text-gray-600 text-sm writing-mode-vertical h-11/12" %>
+                </div>
+              </td>
+            <% end %>
+  
+            <!-- 以下記述なし -->
+            <td class="border"></td>
+            <td class="border"></td>
+            <td class="border"></td>
+            <td class="border"></td>
+            <td class="border"></td>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <!-- 従業員名 -->
+            <% @employees.each do |e| %>
+              <% if e.employee_type == '正社員' %>
+                <th class="sticky left-0 z-20 border bg-white p-2 text-center text-sky-400"><%= e.name %></th>
+              <% elsif e.employee_type == 'パート' %>
+                <th class="sticky left-0 z-20 border bg-white p-2 text-center text-green-500"><%= e.name %></th>
+              <% else %>
+                <th class="sticky left-0 z-20 border bg-white p-2 text-center text-gray-700"><%= e.name %></th>
+              <% end %>
+              <!-- シフト -->
+              <% @calendar.each do |c| %>
+                <td class="border p-2 text-center text-gray-700">
+                  <% shift_request = @shift_requests.find { |s| s.employee_id == e.id && s.date == c } %>
+                  <%= form.select "shift_requests[#{e.id}][#{c}]", options_for_select(['', 'H', 'N', 'O', 'Y', '⚫️'], shift_request&.shift_type), {}, class: "text-xs w-full p-0" %>
+                </td>
+              <% end %>
+            </tr>
+          </thead>
+          <% end %>
+      </table>
+    </div>
+    <% end %>
+    </main>
+  </div>
+  </body> 
