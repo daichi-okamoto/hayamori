@@ -11,6 +11,7 @@
             シフトを作成してください
           </p>
         </div>
+        <%= render 'layouts/flash_messages' %>
         <div class="flex space-x-2">
           <%= form_with url: create_schedule_path, method: :post, local: true do |form| %>
             <%= form.hidden_field :year, value: @year %>
