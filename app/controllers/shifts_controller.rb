@@ -8,6 +8,7 @@ class ShiftsController < ApplicationController
     @shifts = Shift.where(employee_id: @employees.pluck(:id)).group_by(&:employee_id)
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
     @shift_counts = sum_shift_counts(@employees, @shifts, @calendar)
+    @shift_requests = ShiftRequest.where(date: @start_date..@end_date, user_id: current_user.id)
   end
 
   def new
@@ -84,6 +85,7 @@ class ShiftsController < ApplicationController
     employees = current_user.employees
     dates = (@start_date..@end_date).to_a
     shift_requests = ShiftRequest.where(date: @start_date..@end_date, user_id: current_user.id).group_by(&:employee_id)
+    @shift_requests = ShiftRequest.where(date: @start_date..@end_date, user_id: current_user.id)
 
     data = {
       employees: employees.map do |e|
@@ -140,6 +142,7 @@ class ShiftsController < ApplicationController
     @shifts = Shift.where(date: @start_date..@end_date, employee_id: @employees.pluck(:id)).group_by(&:employee_id)
     @shifts.default = [] 
     @shift_counts = sum_shift_counts(@employees, @shifts, @calendar)
+    @shift_requests = ShiftRequest.where(date: @start_date..@end_date, user_id: current_user.id)
   end
 
   def destroy_all

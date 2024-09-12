@@ -97,25 +97,25 @@
               <% end %>
               <!-- シフト -->
               <% @calendar.each do |c| %>
-                <td class="border p-2 text-center text-sm text-gray-700">
-                  <% if @shifts[e.id] %>
-                    <% shift = @shifts[e.id].find { |s| s.date == c } %>
-                    <% current_shift = case shift&.shift_type
-                       when "早番" then "H"
-                       when "日勤" then "N"
-                       when "遅番" then "O"
-                       when "夜勤" then "Y"
-                       when "夜勤明け" then "明け"
-                       when "休み" then "⚫️"
-                       else ""
-                       end %>
-                    <%= form.select "shifts[#{e.id}][#{c}]",
-                      [["H", "H"], ["N", "N"], ["O", "O"], ["Y", "Y"], ["明け", "明け"], ["⚫️", "⚫️"]],
-                      { selected: current_shift },
-                      class: "text-xs w-full p-0"%>
-                  <% end %>
-                </td>
-              <% end %>
+              <td class="border p-2 text-center text-sm text-gray-700">
+                <% if @shifts[e.id] %>
+                  <% shift = @shifts[e.id].find { |s| s.date == c } %>
+                  <% current_shift = case shift&.shift_type
+                     when "早番" then "H"
+                     when "日勤" then "N"
+                     when "遅番" then "O"
+                     when "夜勤" then "Y"
+                     when "夜勤明け" then "明け"
+                     when "休み" then "⚫️"
+                     else ""
+                     end %>
+                  <%= form.select "shifts[#{e.id}][#{c}]",
+                    [["H", "H"], ["N", "N"], ["O", "O"], ["Y", "Y"], ["明け", "明け"], ["⚫️", "⚫️"]],
+                    { selected: current_shift },
+                    class: "text-xs w-full p-0"%>
+                <% end %>
+              </td>
+            <% end %>
             <td class="border text-gray-700 text-center"><%= @shift_counts[e.id][:early] %></td>
             <td class="border text-gray-700 text-center"><%= @shift_counts[e.id][:day] %></td>
             <td class="border text-gray-700 text-center"><%= @shift_counts[e.id][:late] %></td>
