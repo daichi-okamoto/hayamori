@@ -146,25 +146,39 @@
               <% end %>
               <!-- シフト -->
               <% @calendar.each_with_index do |c, index| %>
-                <td class="border p-2 text-center text-gray-700">
-                  <% if @schedule_output[e.name] %>
-                    <% shift = @schedule_output[e.name][index] %>
-                    <% case shift %>
-                    <% when "早番" %>
-                      H
-                    <% when "日勤" %>
-                      &nbsp; <!-- 空白にする -->
-                    <% when "遅番" %>
-                      O
-                    <% when "夜勤", "夜勤明け" %>
-                      Y
-                    <% when "休み" %>
+              <% actual_shift = @schedule_output[e.name][index]%>
+              <% shift_request = @shift_requests.find { |s| s.employee_id == e.id && s.date == c } %>
+              <td class="border p-2 text-center text-gray-700">
+                <% if @schedule_output[e.name] %>
+                  <% shift = @schedule_output[e.name][index] %>
+                  <% case shift %>
+                  <% when "早番" %>
+                  <span class="flex items-center">
+                    H
+                    <%= content_tag(:span, "キ", class: "text-sm") if shift_request&.shift_type == actual_shift %>
+                  </span>
+                  <% when "日勤" %>
+                    &nbsp; <!-- 空白にする -->
+                  <% when "遅番" %>
+                  <span class="flex items-center">
+                    O
+                    <%= content_tag(:span, "キ", class: "text-sm") if shift_request&.shift_type == actual_shift %>
+                  </span>
+                  <% when "夜勤", "夜勤明け" %>
+                  <span class="flex items-center">
+                    Y
+                    <%= content_tag(:span, "キ", class: "text-sm") if shift_request&.shift_type == actual_shift %>
+                  </span>
+                  <% when "休み" %>
+                    <span class="flex items-center">
                       ⚫️
-                    <% else %>
-                      <%= shift %>
-                    <% end %>
+                      <%= content_tag(:span, "キ", class: "text-sm") if shift_request&.shift_type == actual_shift %>
+                    </span>
+                  <% else %>
+                    <%= shift %>
                   <% end %>
-                </td>
+                <% end %>
+              </td>
               <% end %>
             </tr>
           </thead>

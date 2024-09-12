@@ -121,6 +121,10 @@
                 <% if @shifts[e.id] %>
                   <% shift = @shifts[e.id].find { |s| s.date == c } %>
                   <% if shift %>
+                  <!-- 勤務希望を取得 -->
+                  <% desired_shift = @shift_requests.find { |sr| sr.employee_id == e.id && sr.date == c } %>
+                  <!-- シフトタイプを表示 -->
+                  <div class="flex items-center justify-center">
                     <% case shift.shift_type %>
                     <% when "早番" %>
                       H
@@ -135,6 +139,11 @@
                     <% else %>
                       <%= shift.shift_type %>
                     <% end %>
+                    <!-- 勤務希望とシフトが一致している場合に「キ」を表示 -->
+                  <% if desired_shift && shift.shift_type == desired_shift.shift_type %>
+                    <span class="text-xs text-red-500 font-bold p-1">キ</span>
+                  <% end %>
+                  </div>
                   <% end %>
                 <% end %>
               </td>

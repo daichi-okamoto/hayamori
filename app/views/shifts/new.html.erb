@@ -82,9 +82,9 @@
               <% end %>
               <!-- シフト -->
               <% @calendar.each do |c| %>
-                <td class="border p-2 text-center text-gray-700">
-                <% shift_request = @shift_requests[e.id]&.find { |s| s.date == c } %>
-                <%= shift_request ? format_display_shift_type(shift_request.shift_type) : '' %>
+                <td class="border p-2 text-center text-red-500">
+                  <% shift_request = @shift_requests[e.id]&.find { |s| s.date == c } %>
+                  <%= shift_request ? format_display_shift_type(shift_request.shift_type) : '' %>
                 </td>
               <% end %>
             </tr>
