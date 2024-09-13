@@ -94,8 +94,8 @@
               <% @calendar.each do |c| %>
                 <td class="border p-2 text-center text-gray-700">
                   <% shift_request = @shift_requests.find { |s| s.employee_id == e.id && s.date == c } %>
-                  <%= form.select "shift_requests[#{e.id}][#{c}]", options_for_select(['', 'H', 'N', 'O', 'Y', '⚫️'], shift_request&.shift_type), {}, class: "text-xs w-full p-0" %>
-                </td>
+                <% selected_shift = shift_request.present? ? shift_request.shift_type : '' %>
+                <%= form.select "shift_requests[#{e.id}][#{c}]", options_for_select(['', 'H', 'N', 'O', 'Y', '⚫️'], selected: selected_shift), {}, class: "text-xs w-full p-0" %>
               <% end %>
             </tr>
           </thead>
