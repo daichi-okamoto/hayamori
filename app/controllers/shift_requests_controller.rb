@@ -42,8 +42,16 @@ class ShiftRequestsController < ApplicationController
   end
 
   def edit
-    @year = @shift_request.year
-    @month = @shift_request.month
+    @year = params[:year]
+    @month = params[:month]
+  
+    # 勤務希望が既に存在するか確認し、なければ新規作成する
+    @shift_request = ShiftRequest.find_or_initialize_by(year: @year, month: @month, employee_id: current_employee.id)
+
+    if @shift_request.new_record?
+      # 新しいシフトリクエストを保存
+      @shift_request.save!
+    end
   end
 
   def update
