@@ -44,6 +44,14 @@ class EmployeesController < ApplicationController
     redirect_to dashboard_index_path, status: :see_other
   end
 
+  def sort
+    params[:order].each do |item|
+      employee = Employee.find(item[:id])
+      employee.update(position: item[:position])
+    end
+    head :ok
+  end
+
   private
 
   def employee_params

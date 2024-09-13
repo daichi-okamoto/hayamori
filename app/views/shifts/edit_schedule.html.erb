@@ -71,7 +71,7 @@
             <% @calendar.each do |c| %>
               <td class="border">
                 <div class="flex justify-center items-center">
-                  <%= form.text_area "memos[#{c}]", class: "text-gray-600 text-sm writing-mode-vertical" %>
+                  <%= form.text_area "memos[#{c}]", class: "text-gray-600 text-sm writing-mode-vertical", value: @memos[c]&.content %>
                 </div>
               </td>
             <% end %>

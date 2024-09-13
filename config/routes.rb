@@ -21,7 +21,11 @@ Rails.application.routes.draw do
   resources :users, only: %i[new create]
 
   # スタッフ管理画面
-  resources :employees
+  resources :employees do
+    collection do
+      post :sort # 並べ替え
+    end
+  end
 
   # シフト管理画面
   resources :shifts, only: %i[index new create edit update]

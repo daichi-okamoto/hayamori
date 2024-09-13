@@ -23,9 +23,9 @@
           <th class="border border-b-4 text-center text-gray-700 text-base py-3"></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody data-controller="sortable">
         <% @employees.each do |employee| %>
-        <tr>
+        <tr data-id="<%= employee.id %>" class="cursor-pointer">
           <td class="text-gray-500 text-center font-semibold border "><%= employee.name %></td>
           <% if employee.employee_type == '正社員' %>
             <td class="border text-center text-sky-400 text-base font-semibold"><%= employee.employee_type %></td>
