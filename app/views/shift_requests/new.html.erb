@@ -13,6 +13,7 @@
             勤務希望を入力してください
           </p>
         </div>
+        <%= render 'layouts/flash_messages' %>
         <div class="flex space-x-2">
           <%= form.hidden_field :year, value: @year %>
           <%= form.hidden_field :month, value: @month %>

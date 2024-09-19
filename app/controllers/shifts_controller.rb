@@ -4,7 +4,7 @@ class ShiftsController < ApplicationController
 
   def index
     set_month_data(params[:year], params[:month])
-    @employees = current_user.employees
+    @employees = current_user.employees.order(:position)
     @shifts = Shift.where(employee_id: @employees.pluck(:id)).group_by(&:employee_id)
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
     @shift_counts = sum_shift_counts(@employees, @shifts, @calendar)
@@ -16,7 +16,7 @@ class ShiftsController < ApplicationController
     @month = params[:month]
 
     set_month_data(@year, @month)
-    @employees = current_user.employees
+    @employees = current_user.employees.order(:position)
     @shift_requests = ShiftRequest.where(date: @start_date..@end_date, user_id: current_user.id).group_by(&:employee_id)
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
   end
@@ -28,7 +28,7 @@ class ShiftsController < ApplicationController
 
   def update_schedule
     set_month_data(params[:year], params[:month])
-    @employees = current_user.employees
+    @employees = current_user.employees.order(:position)
     @schedule_output = @schedule_output || {}
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
     @shifts = Shift.where(date: @start_date..@end_date, employee_id: @employees.pluck(:id)).group_by(&:employee_id)
@@ -79,7 +79,7 @@ class ShiftsController < ApplicationController
 
   def create_schedule
     set_month_data(params[:year], params[:month]) 
-    @employees = current_user.employees
+    @employees = current_user.employees.order(:position)
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
 
     employees = current_user.employees
@@ -119,7 +119,7 @@ class ShiftsController < ApplicationController
       parsed_output = JSON.parse(output)
       if parsed_output.key?("Error")
         clear_shift_requests_and_memos(@start_date, @end_date)
-        flash[:danger] = 'シフトを作成できませんでした。勤務希望を再度調整してください。またはスタッフを追加してください'
+        flash[:danger] = 'シフトを作成できませんでした。勤務希望を再度調整してください'
         redirect_to new_shift_request_path(year: params[:year], month: params[:month]) and return
       end
       @schedule_output = parsed_output.empty? ? {}: parsed_output
@@ -137,7 +137,7 @@ class ShiftsController < ApplicationController
 
   def edit_schedule
     set_month_data(params[:year], params[:month])
-    @employees = current_user.employees
+    @employees = current_user.employees.order(:position)
     @memos = Memo.where(date: @start_date..@end_date, user_id: current_user.id).index_by(&:date)
     @shifts = Shift.where(date: @start_date..@end_date, employee_id: @employees.pluck(:id)).group_by(&:employee_id)
     @shifts.default = [] 

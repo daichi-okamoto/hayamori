@@ -25,8 +25,9 @@ Rails.application.routes.draw do
 
   # スタッフ管理画面
   resources :employees do
-    collection do
-      post :sort # 並べ替え
+    member do
+      patch :move_up
+      patch :move_down
     end
   end
 
