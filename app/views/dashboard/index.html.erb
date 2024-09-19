@@ -1,83 +1,29 @@
-<% content_for(:title, 'スタッフ管理') %>
+<% content_for(:title, 'スタッフ管理' ) %>
+
 <body>
   <%= render 'layouts/header' %>
-<div class="flex">
-  <!-- サイドバー -->
-  <%= render 'layouts/employee_sidebar' %>
+  <div class="flex">
+    <!-- サイドバー -->
+    <%= render 'layouts/employee_sidebar' %>
 
-  <!-- メインコンテンツ -->
-  <main class="w-full lg:flex-1 p-4 bg-slate-50 h-[calc(100vh-64px)]">
-    <div class="flex justify-between items-center mb-4 lg:container lg:mx-auto">
-      <h2 class="text-2xl text-gray-700">スタッフ表</h2>
-      <%= render 'layouts/flash_messages' %>
-      <%= link_to 'スタッフ追加', new_employee_path, class: "border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95" %>
-    </div>
-    <div class="overflow-y-auto max-h-[780px] sm:max-h-[900px] md:max-h-[1000px] lg:max-h-[600px] xl:max-h-[600px]">
-      <% if @employees.any? %>
-      <table class="table table-fixed border-separate border-spacing-0 w-full lg:container lg:mx-auto bg-white">
-      <thead>
-        <tr class="sticky top-0 z-10 bg-white">
-          <th class="border border-b-4 text-center text-gray-700 text-base py-3">名前</th>
-          <th class="border border-b-4 text-center text-gray-700 text-base py-3">雇用形態</th>
-          <th class="border border-b-4 text-center text-gray-700 text-base py-3">勤務可能シフト</th>
-          <th class="border border-b-4 text-center text-gray-700 text-base py-3"></th>
-        </tr>
-      </thead>
-      <tbody data-controller="sortable">
-        <% @employees.each do |employee| %>
-        <tr data-id="<%= employee.id %>" class="cursor-pointer">
-          <td class="text-gray-500 text-center font-semibold border "><%= employee.name %></td>
-          <% if employee.employee_type == '正社員' %>
-            <td class="border text-center text-sky-400 text-base font-semibold"><%= employee.employee_type %></td>
-          <% elsif employee.employee_type == 'パート' %>
-            <td class="border text-center text-green-500 text-base font-semibold"><%= employee.employee_type %></td>
-          <% else %>
-            <td class="border text-center text-gray-500 text-base font-semibold"><%= employee.employee_type %></td>
-          <% end %>
-          <td class="border flex justify-center py-3">
-            <div class="flex space-x-1 items-center">
-              <% if employee.early_shift %>
-                <p class="bg-sky-400 text-white text-sm p-1 rounded-md">早番</p>
-              <% end %>
-              <% if employee.day_shift %>
-                <p class="bg-green-500 text-white text-sm p-1 rounded-md">日勤</p>
-              <% end %>
-              <% if employee.late_shift %>
-                <p class="bg-stone-500 text-white text-sm p-1 rounded-md">遅番</p>
-              <% end %>
-              <% if employee.night_shift %>
-                <p class="bg-gray-800 text-white text-sm p-1 rounded-md">夜勤</p>
-              <% end %>
-            </div>
-          </td>
-          <td class="text-center border">
-            <div class="flex justify-center items-center space-x-2">
-              <%= link_to edit_employee_path(employee), class: "flex items-center font-semibold hover:bg-gray-100 rounded-sm p-1 transition active:scale-95" do %>
-              <!-- <a href="#" class="flex justify-center items-center space-x-1"> -->
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#13b5ea">
-                  <path d="M186.67-120q-27 0-46.84-19.83Q120-159.67 120-186.67v-586.66q0-27 19.83-46.84Q159.67-840 186.67-840h389L509-773.33H186.67v586.66h586.66v-324.66L840-578v391.33q0 27-19.83 46.84Q800.33-120 773.33-120H186.67ZM480-480ZM360-360v-170l377-377q10-10 22.33-14.67 12.34-4.66 24.67-4.66 12.67 0 25.04 5 12.38 5 22.63 15l74 75q9.4 9.97 14.53 22.02 5.13 12.05 5.13 24.51 0 12.47-4.83 24.97-4.83 12.5-14.83 22.5L530-360H360Zm499-424.67-74.67-74.66L859-784.67Zm-432.33 358H502l246-246L710-710l-38.33-37.33-245 244.33v76.33ZM710-710l-38.33-37.33L710-710l38 37.33L710-710Z"/>
-                </svg>
-                <span class="text-sky-400 pl-1">編集</span>
-              <% end %>
-              <%= link_to employee_path(employee), data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' } , class: "flex items-center font-semibold hover:bg-gray-100 rounded-sm p-1 transition active:scale-95" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FF6969">
-                  <path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/>
-                </svg>
-              <span class="text-red-400 pl-1">削除</span>
-              <% end %>
-            </div>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <% else %>
-      <div class="flex justify-center items-center">
-        <p class="text-xl text-gray-500">スタッフを追加してください</p>
+    <!-- メインコンテンツ -->
+    <main class="w-full lg:flex-1 p-4 bg-slate-50 h-[calc(100vh-64px)]">
+      <div class="flex justify-between items-center mb-4 lg:container lg:mx-auto">
+        <h2 class="text-2xl text-gray-700">スタッフ表</h2>
+        <%= render 'layouts/flash_messages' %>
+        <%= link_to 'スタッフ追加', new_employee_path, class: "border py-1 px-7 rounded font-bold text-sm text-gray-500 hover:bg-sky-400 hover:border-sky-400 hover:text-white duration-300 transition active:scale-95" %>
       </div>
-    <% end %>
-    </div>
-  </main>
-</div>
-
+      <div class="overflow-y-auto max-h-[780px] sm:max-h-[900px] md:max-h-[1000px] lg:max-h-[600px] xl:max-h-[600px]">
+        <%= turbo_frame_tag "employees" do %>
+          <% if @employees.any? %>
+            <%= render 'employees_table', employees: @employees %>
+          <% else %>
+            <div class="flex justify-center items-center">
+              <p class="text-xl text-gray-500">スタッフを追加してください</p>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </main>
+  </div>
 </body>

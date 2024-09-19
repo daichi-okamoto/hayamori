@@ -131,7 +131,7 @@ class ShiftRequestsController < ApplicationController
     set_month_data(year, month)
     Rails.logger.debug "Year: #{year}, Month: #{month}, Start Date: #{@start_date}, End Date: #{@end_date}"
   
-    @employees = current_user.employees
+    @employees = current_user.employees.order(:position)
     @shifts = current_user.shifts.group_by(&:employee_id)
     @shift_requests = current_user.shift_requests.where(date: @start_date..@end_date)
     @memos = current_user.memos.where(date: @start_date..@end_date).index_by(&:date)
