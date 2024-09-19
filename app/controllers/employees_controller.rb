@@ -77,6 +77,6 @@ class EmployeesController < ApplicationController
   end
 
   def employee_params
-    params.require(:employee).permit(:name, :employee_type, :early_shift, :day_shift, :late_shift, :night_shift)
+    params.require(:employee).permit(:name, :employee_type, :early_shift, :day_shift, :late_shift, :night_shift, :position)
   end
 end
