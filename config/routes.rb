@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  get 'contacts/create'
+  get 'contacts/new'
   get 'dashboard/index'
   get 'shifts/edit_schedule', to: 'shifts#edit_schedule', as: 'edit_schedule'
   # エクセル出力
